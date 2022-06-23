@@ -12,24 +12,44 @@ class Customer:
     こども料金(20歳未満): 1000円
     おとな料金(20歳以上65歳未満): 1500円
     シニア料金(65歳以上): 1200円
+
+    C-5 3歳以下の入場料金の無料化
+    C-6. 75歳以上の料金区分の追加
+
     """
 
     def entry_fee(self):
         fee_child = 1000
         fee_adult = 1500
         fee_senior = 1200
+        fee_younger = 0  # C-5
+        fee_older = 500
 
-        if self.age < 20:
+        if 3 < self.age < 20:
             return fee_child
 
         if 20 <= self.age <= 65:
             return fee_adult
 
-        if self.age >= 65:
+        if 75 >= self.age >= 65:
             return fee_senior
+
+        if self.age <= 3:  # C-5
+            return fee_younger
+
+        if self.age >= 75:  # C-6
+            return fee_older
 
     def info_csv(self):
         return f"{self.full_name()},{self.age},{self.entry_fee()}"
+
+    # C-7. 単一顧客の情報取得形式の追加その1
+    def info_tab(self):
+        return f"{self.full_name()}\t{self.age}\t{self.entry_fee()}"
+
+    # C-8. 単一顧客の情報取得形式の追加その2
+    def info_p(self):
+        return f"{self.full_name()}|{self.age}|{self.entry_fee()}"
 
 
 if __name__ == "__main__":
@@ -81,3 +101,11 @@ if __name__ == "__main__":
     ieyasu = Customer(first_name="Ieyasu", family_name="Tokugawa", age=73)
     ieyasu.info_csv()  # "Ieyasu Tokugawa,73,1200" という値を返す
     print(ieyasu.info_csv())
+
+    # test C-7
+    ieyasu.info_tab()
+    print(ieyasu.info_tab())
+
+    # test C-8
+    ieyasu.info_p()
+    print(ieyasu.info_p())
